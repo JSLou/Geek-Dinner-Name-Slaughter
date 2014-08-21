@@ -16,6 +16,22 @@ app.use("/reset", function(request, response, next) {
 	response.redirect("/");
 });
 
+app.use("/names", function(request, response, next) {
+	response.set({
+		"Content-Type": "application/json"
+	});
+	response.json(names);
+});
+
+app.use("/vote/:name", function(request, response, next) {
+	if (!names[request.params.name]) {
+		names[request.params.name] = 0;
+	}
+	names[request.params.name]++;
+	response.send("Thanks you for voting\n " + request.params.name + " now has " + names[request.params.name] + " votes.");
+	response.end();
+});
+
 app.use(function(request, response, next) {
 	hits++;
 	response.send("Hello JSLou! hits: " + hits);
@@ -25,4 +41,3 @@ app.use(function(request, response, next) {
 app.listen(3000, function() {
 	console.log("Listening on port 3000.");
 });
-
