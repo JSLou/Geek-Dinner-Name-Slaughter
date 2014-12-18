@@ -7,6 +7,10 @@ var names = {
 	"function.length": 0
 };
 
+app.get("/login", function(request, response, next) {
+	response.send("<html><head><title></title></head><body><form action='/login' method='post'><input type='text' name='user'><input type='password' name='password'><input type='submit'></form></body></html>");
+});
+
 app.use("/favicon.ico", function(request, response, next) {
 	response.end();
 });
