@@ -25,22 +25,23 @@ app.post("/login", function(request, response, next) {
 	response.send(JSON.stringify(request.body));
 });
 
-app.use("/favicon.ico", function(request, response, next) {
+app.get("/favicon.ico", function(request, response, next) {
 	response.end();
 });
 
-app.use("/reset", function(request, response, next) {
+app.get("/reset", function(request, response, next) {
 	hits = 0;
 	response.redirect("/");
 });
 
-app.use("/names", function(request, response, next) {
+app.get("/names", function(request, response, next) {
 	response.set({
 		"Content-Type": "application/json"
 	});
 	response.json(names);
 });
 
+// fixme: this should probably be post
 app.use("/vote/:name", function(request, response, next) {
 	if (!names[request.params.name]) {
 		names[request.params.name] = 0;
