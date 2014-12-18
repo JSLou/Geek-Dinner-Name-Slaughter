@@ -7,8 +7,15 @@ var names = {
 	"function.length": 0
 };
 
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
+
 app.get("/login", function(request, response, next) {
 	response.send("<html><head><title></title></head><body><form action='/login' method='post'><input type='text' name='user'><input type='password' name='password'><input type='submit'></form></body></html>");
+});
+
+app.post("/login", function(request, response, next) {
+	response.send(JSON.stringify(request.body));
 });
 
 app.use("/favicon.ico", function(request, response, next) {
