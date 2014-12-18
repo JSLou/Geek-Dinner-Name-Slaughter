@@ -10,6 +10,13 @@ var names = {
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
+var session = require("express-session");
+app.use(session({
+	secret: "JSLOU FOREVAHHH!!!1",
+	resave: true,
+	saveUninitialized: true
+}));
+
 app.get("/login", function(request, response, next) {
 	response.send("<html><head><title></title></head><body><form action='/login' method='post'><input type='text' name='user'><input type='password' name='password'><input type='submit'></form></body></html>");
 });
