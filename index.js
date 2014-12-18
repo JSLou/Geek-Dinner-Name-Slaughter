@@ -36,7 +36,7 @@ app.use("/vote/:name", function(request, response, next) {
 	response.end();
 });
 
-app.use(function(request, response, next) {
+app.get("/", function(request, response, next) {
 	var keys = Object.keys(names);
 	keys = shuffle(keys).slice(0, 2);
 	response.send("two names: <br/><a href='/vote/" + keys[0] + "'>" + keys[0] + "</a>" + " -vs- " + "<a href='/vote/" + keys[1] + "'>" + keys[1] + "</a>");
