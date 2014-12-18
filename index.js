@@ -17,13 +17,39 @@ app.use(session({
 	saveUninitialized: true
 }));
 
+var users = {
+	"aaron": "secret"
+};
+var passport = require("passport");
+var LocalStrategy = require("passport-local").Strategy;
+passport.use(new LocalStrategy({
+	usernameField: "user",
+	passwordField: "password"
+}, function(user, password, done) {
+	if (users[user] === password) {
+		done(null, user);
+	} else {
+		done(null, false);
+	}
+}));
+passport.serializeUser(function(user, done) {
+	done(null, user);
+});
+passport.deserializeUser(function(id, done) {
+	done(null, id);
+});
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 app.get("/login", function(request, response, next) {
 	response.send("<html><head><title></title></head><body><form action='/login' method='post'><input type='text' name='user'><input type='password' name='password'><input type='submit'></form></body></html>");
 });
 
-app.post("/login", function(request, response, next) {
-	response.send(JSON.stringify(request.body));
-});
+app.post("/login", 
+		 passport.authenticate("local", { 
+			 successRedirect: "/", 
+			 failureRedirect: "/login" }));
 
 app.get("/favicon.ico", function(request, response, next) {
 	response.end();
